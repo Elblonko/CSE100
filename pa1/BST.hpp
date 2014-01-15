@@ -55,8 +55,9 @@ public:
    */ // 
   virtual std::pair<iterator,bool> insert(const Data& item) {
      /* Variable Declarations */
-     BSTNode<Data>* insertNode = new BSTNode<Data>(item);
-     bool insertSuccess;
+     BSTNode<Data>* insertNode = new BSTNode<Data>(item); //Node to be inserted
+     bool insertSuccess;    //Holds the return of insert helper functoin call
+
      /* Body of Functions */
      
      //Compare the node to root and recurse down the tree
@@ -66,6 +67,7 @@ public:
         root = insertNode;
         return std::make_pair(BST<Data>::iterator(root), true );
      }
+
      //Check if item is root
      if ( item == root->data)
         return std::make_pair(BST<Data>::iterator(root), insertSuccess );
@@ -76,8 +78,6 @@ public:
      //Create pair and add to size
      isize++;
      return std::make_pair(BST<Data>::iterator(insertNode), insertSuccess );
-
-         
     
   }
 
@@ -87,9 +87,11 @@ public:
    *  iterator if the item is not in the BST.
    */ //
   iterator find(const Data& item) const {
-      //Declarations
+
+      /*Variable Declarations*/
       BSTNode<Data>* tempNode = root;
 
+      //If node being searched for is the root
       if ( tempNode->data == item )
         return typename BST<Data>::iterator(tempNode);
       
@@ -97,8 +99,9 @@ public:
       while ( tempNode->data != item ){
           
           //Checks if curr node is greater than item
-          if ( tempNode->data > item ){
+          if ( item < tempNode->data ){
 
+              //Recurse left if less than
               if(tempNode->left)
                 tempNode = tempNode->left;
 
@@ -118,6 +121,7 @@ public:
                   return end();
           }
       }
+
       //item found
       return typename BST<Data>::iterator(tempNode);
   }
@@ -126,8 +130,10 @@ public:
   /** Return the number of items currently in the BST.
    */ // 
   unsigned int size() const {
+
     //return isize
     return isize;
+
   }
 
   /** Remove all elements from this BST, and destroy them,
@@ -143,6 +149,8 @@ public:
   /** Return true if the BST is empty, else false.
    */ // 
   bool empty() const {
+
+    //Check if root is null
     if(root == nullptr)
         return true;
   }
@@ -150,6 +158,7 @@ public:
   /** Return an iterator pointing to the first item in the BST.
    */ // 
   iterator begin() const {
+
     //Given the root go left return iterator
     BSTNode<Data>* tempNode = root;
     
@@ -166,7 +175,10 @@ public:
   /** Return an iterator pointing past the last item in the BST.
    */
   iterator end() const {
+     
+    //return nullptr for the end
     return typename BST<Data>::iterator(nullptr);
+
   }
 
 /*Private section for helper functions
@@ -195,7 +207,7 @@ private:
             tempNode = tempNode->left;
      }
 
-     else if ( insert->data > tempNode->data ){
+     else if ( tempNode->data < insert->data ){
          if (tempNode->right == nullptr ){
              tempNode->right = insert;
              insert->parent = tempNode;
@@ -209,8 +221,12 @@ private:
      return recurseInsert(insert, tempNode);
  }
 
- /*Function to delete the tree recursively given the root*/
+ /*Function to delete the tree recursively given the root
+  *Parameters: takes a pointer to the root node
+  *Returns: Void but when returns tree has been delete
+  * */
  void deleteTree(BSTNode<Data>* start){
+
     //if Left exists
     if(start->left){
         deleteTree(start->left);
@@ -220,6 +236,8 @@ private:
     if(start->right){
         deleteTree(start->right);
     }
+
+    //delete the current leaf node
     delete start;
 
  }

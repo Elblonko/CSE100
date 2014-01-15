@@ -45,13 +45,14 @@ public:
    */ // 
   BSTNode<Data>* successor() const {
 
-    //Node used to iterate through the tree
-    BSTNode<Data>* tempNode =(BSTNode<Data>*) this;
-    BSTNode<Data>* leftChild;
+    /* Variable Declarations */ 
+    BSTNode<Data>* tempNode =(BSTNode<Data>*) this; //tempNode used to iterate
+    BSTNode<Data>* leftChild;   //Node used to look for leftChild
      
     //if the right child exists find succesor
     if ( tempNode->right != nullptr ){
         tempNode = tempNode->right;
+
         //traverses left to find the succesor
         while ( tempNode->left != nullptr ){
             tempNode = tempNode->left;
@@ -64,13 +65,19 @@ public:
         //compares to find parent such that leftChild
         //is the left decendent
         while(tempNode->parent != nullptr){
+
+            //Updates the nodes looking for left child
             leftChild = tempNode;
             tempNode = tempNode->parent;
+
             if (tempNode->left == leftChild ){
                 break; //could return the parent here
             }
+
+            //Sets left child to last tempNode found
             leftChild = tempNode;
         }
+
         //returns the succesor
         return tempNode;
     }

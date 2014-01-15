@@ -49,8 +49,11 @@ public:
    *  BSTNode, and return a reference to the updated BSTIterator.
    */
   BSTIterator<Data>& operator++() {
+
+    //Updates the iterator using succesor Node method
     curr = curr->successor();
     return *this;
+
   }
 
   /** Post-increment operator. 
@@ -65,12 +68,19 @@ public:
 
   /** Equality test operator. */ // 
   bool operator==(BSTIterator<Data> const & other) const {
+
+      //Checks if other.curr is not null
       if( other.curr ){
+         //Check for data field equality
          if (curr->data == other.curr->data ){
             return true;
+
+         //if not null and not equal return false
          }else{
             return false;
          }
+
+      //else if both null return true for equality 
       }else{
           if(curr)
               return false;
@@ -81,12 +91,17 @@ public:
 
   /** Inequality test operator. */ // 
   bool operator!=(BSTIterator<Data> const & other) const {
+
+      //Check if other.curr is not null
       if ( other.curr ){
+        //if not null check fo inequality and return true
         if (curr->data != other.curr->data ){
               return true;
          }else{
              return false;
          }
+
+        //if both null return false for inequality
        }else{
           if (curr)
               return true;
