@@ -42,7 +42,11 @@ public:
   virtual ~BST() {
 
     //Call to clear
-    clear();
+    deleteTree(root);
+
+    //set root equal to nullptr
+    root = nullptr;
+
   }
 
   /** Insert a Data item in the BST.
@@ -144,6 +148,9 @@ public:
       //Delete the tree Post Order Traversal
       deleteTree(root);
     
+      //Set root to nullptr
+      root = nullptr;
+    
   }
 
   /** Return true if the BST is empty, else false.
@@ -227,19 +234,25 @@ private:
   * */
  void deleteTree(BSTNode<Data>* start){
 
+     //check if start is null
+    if(start){
     //if Left exists
-    if(start->left){
-        deleteTree(start->left);
+        if(start->left){
+            deleteTree(start->left);
+        }
+
+        //If right exists
+        if(start->right){
+            deleteTree(start->right);
+        }
+
+        //delete the current leaf node
+        delete start;
+    
+        //decriments the size of the tree
+        isize--;
+        std::cout << "SIZE is equal too: " << isize << std::endl;
     }
-
-    //If right exists
-    if(start->right){
-        deleteTree(start->right);
-    }
-
-    //delete the current leaf node
-    delete start;
-
  }
 };
 

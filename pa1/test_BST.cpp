@@ -76,6 +76,32 @@ int main() {
     }
     ++it;
   }
+  
+  //Test to see if the clear function is working and isize is decrimented
+  cout << "Creating array and testing the clear, delete, isize functions" << endl;
+  //Call to b.clear();
+  
+  b.clear(); 
+  if(b.size() != 0 ){
+      cout << "Incorrect size upon deleteing the array" << endl;
+      return -1;
+  }
+
+  //Can you reinsert items into the list
+  b.insert(1);
+  b.insert(2);
+  b.insert(20);
+  
+ 
+  //Tries to allocate a pointer to a BST 
+  BST<int>* c = new BST<int>(); 
+  c->insert(1);
+  c->insert(5);
+  c->insert(22);
+  //Delete the pointer
+  delete c;
+ 
+
   cout << "OK." << endl;
 
 }
