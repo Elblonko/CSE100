@@ -59,14 +59,14 @@ public:
    */ // 
   virtual std::pair<iterator,bool> insert(const Data& item) {
      /* Variable Declarations */
-     BSTNode<Data>* insertNode = new BSTNode<Data>(item); //Node to be inserted
-     bool insertSuccess;    //Holds the return of insert helper functoin call
 
      /* Body of Functions */
      
      //Compare the node to root and recurse down the tree
      //if root is null
      if (root == nullptr ){
+        //create node to be inserted
+        BSTNode<Data>* insertNode = new BSTNode<Data>(item); 
         isize++;
         root = insertNode;
         return std::make_pair(BST<Data>::iterator(root), true );
@@ -74,14 +74,10 @@ public:
 
      //Check if item is root
      if ( item == root->data)
-        return std::make_pair(BST<Data>::iterator(root), insertSuccess );
+        return std::make_pair(BST<Data>::iterator(root), false );
 
-     //run helper insert method to insert new node
-     insertSuccess = recurseInsert(insertNode, root);
-
-     //Create pair and add to size
-     isize++;
-     return std::make_pair(BST<Data>::iterator(insertNode), insertSuccess );
+     //Create pair and return the iterator
+     return recurseInsert(item, root);
     
   }
 
@@ -160,6 +156,8 @@ public:
     //Check if root is null
     if(root == nullptr)
         return true;
+
+    return false;
   }
 
   /** Return an iterator pointing to the first item in the BST.
@@ -196,36 +194,46 @@ public:
  *
  * */
 private:
- bool recurseInsert(BSTNode<Data>* insert, BSTNode<Data>* tempNode){
+ virtual std::pair<iterator,bool> recurseInsert
+     (const Data& item, BSTNode<Data>* tempNode){
     
      /*function body */
     
-     //Compare and recurse
-     if ( insert->data == tempNode->data )
-         return false;
      
-     else if ( insert->data < tempNode->data ){
+     //if item passsed in in less than current Node move left
+     if ( item  < tempNode->data ){
          if (tempNode->left == nullptr ){
+             //create Node to insert
+             BSTNode<Data>* insert = new BSTNode<Data>(item); 
              tempNode->left = insert;
              insert->parent = tempNode;
-             return true;
+             ++isize;
+             return std::make_pair(BST<Data>::iterator(insert), true );
          }
-         else
+         else{
             tempNode = tempNode->left;
+            return recurseInsert(item, tempNode);
+         }
      }
 
-     else if ( tempNode->data < insert->data ){
+     //if item is greater than  current node move right
+     else if ( tempNode->data < item ){
          if (tempNode->right == nullptr ){
+             //create Node to insert
+             BSTNode<Data>* insert = new BSTNode<Data>(item); 
              tempNode->right = insert;
              insert->parent = tempNode;
-             return true;
+             ++isize;
+             return std::make_pair(BST<Data>::iterator(insert), true );
          }
-         else
+         else{
             tempNode = tempNode->right;
+            return recurseInsert(item, tempNode);
+         } 
      }
 
-     //return
-     return recurseInsert(insert, tempNode);
+    //item found in the tree already return last node visisted
+     return std::make_pair(BST<Data>::iterator(tempNode), false );
  }
 
  /*Function to delete the tree recursively given the root
@@ -251,7 +259,6 @@ private:
     
         //decriments the size of the tree
         isize--;
-        std::cout << "SIZE is equal too: " << isize << std::endl;
     }
  }
 };

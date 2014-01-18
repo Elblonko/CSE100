@@ -77,10 +77,7 @@ int main() {
     ++it;
   }
   
-  //Test to see if the clear function is working and isize is decrimented
-  cout << "Creating array and testing the clear, delete, isize functions" << endl;
   //Call to b.clear();
-  
   b.clear(); 
   if(b.size() != 0 ){
       cout << "Incorrect size upon deleteing the array" << endl;
@@ -98,10 +95,27 @@ int main() {
   c->insert(1);
   c->insert(5);
   c->insert(22);
-  //Delete the pointer
-  delete c;
- 
+  //clear and test size
+  c->clear();
+   if(c->size() != 0 ){
+      cout << "Incorrect size upon deleteing the array" << endl;
+      return -1;
+  }
 
+  //Loop to insert MANY items
+ for(unsigned int i = 1; i < 10000; i++){
+    c->insert(i);
+    if(i != c->size() ){
+        cout << "incorrect size of tree" << endl;
+    }
+ }
+
+ //prints out the size
+ cout << "The size of isize is: " << c->size() << endl;
+
+ //delete pointer c
+ delete c;
+ 
   cout << "OK." << endl;
 
 }
